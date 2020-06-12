@@ -30,7 +30,6 @@ const style = {
     }
 }
 
- 
 class SignUp extends Component {
 
     state = {
@@ -50,6 +49,10 @@ class SignUp extends Component {
         })
     }
 
+    userRegister = e => {
+        e.preventDefault();
+        console.log(this.state.usuario);
+    }
 
     render() {
         return (
@@ -66,23 +69,23 @@ class SignUp extends Component {
                         Sign up User
                     </Typography>
                     <form style={style.form}>
-                        <Grid container spacing={2}>
-                            <Grid item md={6} xs={12}>
+                        <Grid container spacing={2} justify="center">
+                            <Grid item md={6} xs={8}>
                                 <TextField name="nombre" onChange={this.onChange} value={this.state.usuario.nombre} fullWidth label="Ingrese su nombre" />
                             </Grid>
-                            <Grid item md={6} xs={12}>
-                                <TextField name="apellido"  fullWidth label="Ingrese sus apellidos" />
+                            <Grid item md={6} xs={8}>
+                                <TextField name="apellido"  onChange={this.onChange} value={this.state.usuario.apellido} fullWidth label="Ingrese sus apellidos" />
                             </Grid>
-                            <Grid item md={6} xs={12}>
-                                <TextField name="email"  fullWidth label="Ingrese su correo electrónico" />
+                            <Grid item md={6} xs={8}>
+                                <TextField name="email"  onChange={this.onChange} value={this.state.usuario.email} fullWidth label="Ingrese su correo electrónico" />
                             </Grid>
-                            <Grid item md={6} xs={12}>
-                                <TextField type="password" name="password" fullWidth label="Ingrese su contraseña" />
+                            <Grid item md={6} xs={8}>
+                                <TextField type="password" onChange={this.onChange} value={this.state.usuario.password} name="password" fullWidth label="Ingrese su contraseña" />
                             </Grid>
                         </Grid>
                         <Grid container justify="center">
-                            <Grid item md={6} xs={6}>
-                                <Button type="submit"  variant="contained" fullWidth size="large" color="secondary" style={style.submit}>
+                            <Grid item md={3} xs={3}>
+                                <Button type="submit" onClick={this.userRegister} variant="contained" fullWidth size="large" color="secondary" style={style.submit}>
                                     Register
                                 </Button>
                             </Grid>
