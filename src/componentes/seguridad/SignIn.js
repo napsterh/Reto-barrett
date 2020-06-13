@@ -124,26 +124,7 @@ class SignIn extends Component {
                             Enviar
                         </Button>
 
-                        <Grid container>
-                            <Link href="#" variant="body2" onClick={this.resetearPassword}>
-                                {"Olvidó su contraseña?"}
-                            </Link>
-                        </Grid>
-                        <Grid>
-                            <Link href="/auth/registrarUser" variant="body2">
-                                {"No tienes una cuenta? Regístrate"}
-                            </Link>
-                        </Grid>
                     </form>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="secondary"
-                        style={style.submit}
-                        href="#"
-                    >
-                        Ingrese con su teléfono
-                    </Button>
                 </div>
             </Container>
         )
