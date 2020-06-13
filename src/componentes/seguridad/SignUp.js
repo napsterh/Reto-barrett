@@ -3,6 +3,8 @@ import { Container, Typography, Grid, TextField, Button } from '@material-ui/cor
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
+import { compose } from 'recompose';
+import { consumerFirebase } from '../../servidor';
 
 
 const style = {
@@ -30,14 +32,33 @@ const style = {
     }
 }
 
+
+const usuarioInicio = {
+    nombre : '',
+    apellido : '',
+    email : '',
+    password : ''
+}
+
 class SignUp extends Component {
 
     state = {
+        firebase : null,
         usuario : {
             nombre : '',
             apellido : '',
             email : '',
             password : ''
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+
+        if(nextProps.firebase  === prevState.firebase){
+            return null;
+        }
+        return {
+            firebase : nextProps.firebase
         }
     }
 
@@ -52,6 +73,20 @@ class SignUp extends Component {
     userRegister = e => {
         e.preventDefault();
         console.log(this.state.usuario);
+        const { usuario, firebase } = this.state;
+
+        firebase.db
+        .collection("Usuarios")
+        .add(usuario)
+        .then(usuarioAfter => {
+            console.log('inserción correcta', usuarioAfter);
+            this.setState({
+                usuario : usuarioInicio
+            })
+        })
+        .catch(error => {
+            console.log('error', error);
+        })
     }
 
     render() {
@@ -66,7 +101,7 @@ class SignUp extends Component {
                         </CardActionArea>
                     </Card>
                     <Typography component="h1" variant="h5">
-                        Sign up User
+                        Registrar Usuario
                     </Typography>
                     <form style={style.form}>
                         <Grid container spacing={2} justify="center">
@@ -86,7 +121,7 @@ class SignUp extends Component {
                         <Grid container justify="center">
                             <Grid item md={3} xs={3}>
                                 <Button type="submit" onClick={this.userRegister} variant="contained" fullWidth size="large" color="secondary" style={style.submit}>
-                                    Register
+                                    Registrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -97,4 +132,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default compose(consumerFirebase)(SignUp);

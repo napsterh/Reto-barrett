@@ -1,5 +1,6 @@
 
 import app from 'firebase/app';
+import 'firebase/firestore';
 
 const config = {
     apiKey: "AIzaSyCkzOcibVRg-nlQZqZUegOy6fgmj2zJjPI",
