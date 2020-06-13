@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Grid, Link } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import firebase from '../../servidor/firebase';
+import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import { Container, Paper, Grid, Breadcrumbs, Link, Typography, TextField, Card, CardContent, CardActions, ButtonGroup } from '@material-ui/core';
+import CardMedia from "@material-ui/core/CardMedia";
+import { consumerFirebase } from '../../servidor';
+import logo from '../../logo.svg';
 
 const style = {
     paper : {
@@ -31,90 +31,38 @@ const style = {
 }
 
 
-function ListaHobbies() {
+class ListaHobbies extends Component {
 
-
-
-    const [hobbies, setHobbies] = useState([]);
-    const [nuevosHobbies, setNuevosHobbies] = useState('');
-    const [actualizarHobbies, setupActualizarHobbies] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            /*const db = firebase.firestore();
-            db.collection("hobbies")
-                .onSnapshot(function(data) {
-                    setHobbies(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-                });*/
-        };
-        fetchData();
-    }, []);
-
-    const  onCreate = () => {
-        /*const db = firebase.firestore();
-        db.collection('hobbies').add({ name : actualizarHobbies});*/
-    };
-
-    function onDelete (id) {
-        /*const db = firebase.firestore()
-        db.collection('hobbies').doc(id).delete()*/
-    }
-
-    function onUpdate  (id) {
-        /*const db = firebase.firestore()
-        db.collection('hobbies').doc(id).set({name : actualizarHobbies})*/
-    }
-
-
+    render() {
         return (
             <Container maxWidth="xs">
                 <div style={style.paper}>
-                    <Card style={style.root}>
-                        <CardActionArea>
-                            <CardMedia style={style.media}
-                                image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStPdNDPx_YjkbUXU2ItVmXIg8QQy82UeWpsZ3_wFM4U2dEY0nh&usqp=CAU'
-                            />
-                        </CardActionArea>
-                    </Card>
-                    <Typography component="h1" variant="h5">
-                        Iniciar sesión
-                    </Typography>
                     <form style={style.form}>
                         <TextField
                             variant="outlined"
-                            label="Ingrese correo electrónico"
+                            label="Ingrese un nuevo hobbie"
                             name="email"
                             fullWidth
                             margin="normal"
                             /*onChange = {this.onChange}
                             value = {this.state.usuario.email}*/
                         />
-                        <TextField
-                            variant="outlined"
-                            label="Ingrese contraseña"
-                            type="password"
-                            name="password"
-                            fullWidth
-                            margin="normal"
-                            /*onChange = {this.onChange}
-                            value = {this.state.usuario.password}*/
-                        />
                         <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="secondary"
-                        /*onClick={this.signin}
-                        /*style={style.submit}*/
+                        /*</form>onClick={this.signin}
+                        style={style.submit}*/
                         >
-                            Enviar
+                            Insertar
                         </Button>
 
                     </form>
                 </div>
             </Container>
-        )
+        );
+    };
+};
 
-}
-
-export default ListaHobbies;
+export default consumerFirebase(ListaHobbies);
