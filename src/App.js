@@ -7,6 +7,7 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import tema from './tema/tema';
 import { Grid } from '@material-ui/core';
 import SignUp from './componentes/seguridad/SignUp';
+import SignIn from './componentes/seguridad/SignIn';
 
 class App extends Component {
   render(){
@@ -19,6 +20,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={ListaHobbies} />
               <Route path="/sec/signup" exact component={SignUp} />
+              <Route path="/sec/signin" exact component={SignIn} />
             </Switch>
           </Grid>
 

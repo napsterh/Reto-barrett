@@ -75,18 +75,32 @@ class SignUp extends Component {
         console.log(this.state.usuario);
         const { usuario, firebase } = this.state;
 
-        firebase.db
-        .collection("Usuarios")
-        .add(usuario)
-        .then(usuarioAfter => {
-            console.log('inserción correcta', usuarioAfter);
-            this.setState({
-                usuario : usuarioInicio
+        firebase.auth
+        .createUserWithEmailAndPassword(usuario.email, usuario.password)
+        .then(auth => {
+
+            const usuarioBaseDatos = {
+                usuarioid : auth.user.uid,
+                email : usuario.email,
+                nombre : usuario.nombre,
+                apellido : usuario.apellido
+            }
+
+            firebase.db
+            .collection("Usuarios")
+            .add(usuarioBaseDatos)
+            .then(usuarioAfter => {
+                console.log('inserción correcta', usuarioAfter);
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                console.log('error', error);
             })
         })
         .catch(error => {
-            console.log('error', error);
+            console.log(error);
         })
+
     }
 
     render() {
