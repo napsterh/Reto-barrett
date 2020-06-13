@@ -5,6 +5,8 @@ import { consumerFirebase } from '../../servidor';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
+import { iniciarSesion } from '../../sesion/action/sesionAction';
+import { StateContext } from '../../sesion/store';
 
 
 const style = {
@@ -38,6 +40,7 @@ const style = {
 
 
 class SignIn extends Component {
+    static contextType = StateContext;
 
     state = {
         firebase : null,
@@ -67,16 +70,16 @@ class SignIn extends Component {
 
     signin = async e => {
         e.preventDefault();
+        const [{sesion}, dispatch] = this.context;
         const { firebase, usuario } = this.state;
+        const {email, password} = usuario;
 
-        firebase.auth
-        .signInWithEmailAndPassword(usuario.email, usuario.password)
-        .then(auth => {
-            this.props.history.push('/');
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        let callback = await iniciarSesion(dispatch, firebase, email, password)
+        if(callback.status){
+            this.props.history.push("/");
+        }else{
+            this.props.history.push("/sec/signin");
+        }
     }
 
     render() {

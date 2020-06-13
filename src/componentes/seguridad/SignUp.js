@@ -5,7 +5,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import { compose } from 'recompose';
 import { consumerFirebase } from '../../servidor';
-
+import { crearUsuario } from '../../sesion/action/sesionAction';
+import { StateContext } from '../../sesion/store';
 
 const style = {
     paper : {
@@ -41,6 +42,7 @@ const usuarioInicio = {
 }
 
 class SignUp extends Component {
+    static contextType = StateContext;
 
     state = {
         firebase : null,
@@ -70,36 +72,17 @@ class SignUp extends Component {
         })
     }
 
-    userRegister = e => {
+    userRegister = async e => {
         e.preventDefault();
-        console.log(this.state.usuario);
-        const { usuario, firebase } = this.state;
+        const [{sesion}, dispatch] = this.context;
+        const {firebase, usuario} = this.state;
 
-        firebase.auth
-        .createUserWithEmailAndPassword(usuario.email, usuario.password)
-        .then(auth => {
-
-            const usuarioBaseDatos = {
-                usuarioid : auth.user.uid,
-                email : usuario.email,
-                nombre : usuario.nombre,
-                apellido : usuario.apellido
-            }
-
-            firebase.db
-            .collection("Usuarios")
-            .add(usuarioBaseDatos)
-            .then(usuarioAfter => {
-                console.log('inserción correcta', usuarioAfter);
-                this.props.history.push("/");
-            })
-            .catch(error => {
-                console.log('error', error);
-            })
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        let callback = await crearUsuario(dispatch, firebase, usuario);
+        if(callback.status){
+            this.props.history.push("/")
+        }else{
+            this.props.history.push("/sec/signup");
+        }
 
     }
 

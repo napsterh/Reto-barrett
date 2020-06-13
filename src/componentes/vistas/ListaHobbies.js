@@ -57,9 +57,9 @@ class ListaHobbies extends Component {
                         >
                             Insertar
                         </Button>
-
                     </form>
                 </div>
+                
             </Container>
         );
     };
